@@ -4,8 +4,6 @@ This project is a Django-based API for managing book information, including CRUD
 
 
 1. Clone the Repository the repository to your local machine:
-
-```bash
 git clone https://github.com/yourusername/your-repo-name.git
 cd your-repo-name
 
