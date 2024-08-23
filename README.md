@@ -31,7 +31,10 @@ pip install python-decouple
 python manage.py makemigrations
 python manage.py migrate
 
-6. Start Django server
+6. Run tests:
+python manage.py test
+
+7. Start Django server
 python manage.py runserver
 
 
