@@ -1,7 +1,7 @@
 Library API for Book Management
 
-This project is a Django-based API for managing book information, including CRUD operations and pagination. The API uses PostgreSQL as the database backend.
-
+This project is a Django-based API for managing book information, including CRUD operations and pagination. 
+The API uses PostgreSQL as the database backend.
 
 1. Clone the Repository the repository to your local machine:
 git clone https://github.com/Forestriver/Library
@@ -11,9 +11,9 @@ On Windows:
 python -m venv venv
 .\venv\Scripts\activate
 
-On macOS/Linux:
-python3 -m venv venv
-source venv/bin/activate
+ On macOS/Linux:
+ python3 -m venv venv
+ source venv/bin/activate
 
 3. Install Dependencies
 pip install -r requirements.txt
