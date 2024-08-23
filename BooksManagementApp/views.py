@@ -1,43 +1,70 @@
-from django.shortcuts import render
-from rest_framework import generics
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
 from .models import Book
 from .serializers import BookSerializer
 
 
-class BookCreateView(generics.CreateAPIView):
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
+@api_view(['POST'])
+def create_book(request):
+    serializer = BookSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class BookListView(generics.ListAPIView):
-    serializer_class = BookSerializer
+@api_view(['GET'])
+def list_books(request):
+    books = Book.objects.all()
 
-    def get_queryset(self):
-        queryset = Book.objects.all()
-        author = self.request.query_params.get('author', None)
-        year = self.request.query_params.get('year', None)
-        language = self.request.query_params.get('language', None)
+    # Filtering based on query parameters
+    author = request.query_params.get('author')
+    year = request.query_params.get('year_of_publishing')
+    language = request.query_params.get('language')
 
-        if author:
-            queryset = queryset.filter(author__icontains=author)
-        if year:
-            queryset = queryset.filter(date_of_publishing__year=year)
-        if language:
-            queryset = queryset.filter(language__icontains=language)
+    if author:
+        books = books.filter(author__icontains=author)
+    if year:
+        books = books.filter(published_date__year=year)
+    if language:
+        books = books.filter(language__icontains=language)
 
-        return queryset
-
-
-class BookDetailView(generics.RetrieveAPIView):
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
+    serializer = BookSerializer(books, many=True)
+    return Response(serializer.data)
 
 
-class BookUpdateView(generics.UpdateAPIView):
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
+@api_view(['GET'])
+def get_book(request, pk):
+    try:
+        book = Book.objects.get(pk=pk)
+    except Book.DoesNotExist:
+        return Response({'detail': 'Not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = BookSerializer(book)
+    return Response(serializer.data)
 
 
-class BookDeleteView(generics.DestroyAPIView):
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
+@api_view(['PUT'])
+def update_book(request, pk):
+    try:
+        book = Book.objects.get(pk=pk)
+    except Book.DoesNotExist:
+        return Response({'detail': 'Not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = BookSerializer(book, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['DELETE'])
+def delete_book(request, pk):
+    try:
+        book = Book.objects.get(pk=pk)
+    except Book.DoesNotExist:
+        return Response({'detail': 'Not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+    book.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)
