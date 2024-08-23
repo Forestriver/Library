@@ -4,11 +4,10 @@ This project is a Django-based API for managing book information, including CRUD
 
 
 1. Clone the Repository the repository to your local machine:
-git clone https://github.com/yourusername/your-repo-name.git
+git clone https://github.com/Forestriver/Library
 cd your-repo-name
 
 2. Create and Activate a Virtual Environment
-
 On Windows:
 python -m venv venv
 .\venv\Scripts\activate
@@ -24,7 +23,6 @@ pip install -r requirements.txt
 Install python decouple:
 pip install python-decouple
 
-
 5. Apply migrations:
 python manage.py makemigrations
 python manage.py migrate
@@ -34,8 +32,6 @@ python manage.py test
 
 7. Start Django server
 python manage.py runserver
-
-
 
 
 
