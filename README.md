@@ -5,7 +5,6 @@ This project is a Django-based API for managing book information, including CRUD
 
 1. Clone the Repository the repository to your local machine:
 git clone https://github.com/Forestriver/Library
-cd your-repo-name
 
 2. Create and Activate a Virtual Environment
 On Windows:
